@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
 }
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 30
@@ -25,14 +26,19 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "SERVER_URL", '"http://api.giphy.com/v1/gifs/"'
+            buildConfigField "String", "API", '"SVBkGciuiJJucO12lztv14fJ7lIdcGJ8"'
         }
         debug {
             buildConfigField "String", "SERVER_URL", '"http://api.giphy.com/v1/gifs/"'
+            buildConfigField "String", "API", '"SVBkGciuiJJucO12lztv14fJ7lIdcGJ8"'
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    realm {
+        syncEnabled = true
     }
 }
 

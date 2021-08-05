@@ -10,17 +10,19 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-
+import android.widget.Toast;
 import com.maveri.livegallery.R;
 import com.maveri.livegallery.api.model.Gif;
 import com.maveri.livegallery.api.model.GifResponse;
 import com.maveri.livegallery.databinding.ActivityMainBinding;
+import com.maveri.livegallery.db.DBService;
+import com.maveri.livegallery.db.model.GifRealmModel;
 import com.maveri.livegallery.presenter.GifPresenter;
 import com.maveri.livegallery.presenter.IGifPresenter;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity implements MainView, MyRecyclerViewAdapter.ItemClickListener{
 
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     private IGifPresenter presenter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private MyRecyclerViewAdapter adapter;
+    private DBService dBservise;
+    private GifRealmModel gifRealmModel;
     private boolean search=false;
     private List<Gif> gifs = new ArrayList();
 
@@ -35,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     private static final String DEFAULT_RAITING = "g";
     private static final String DEFAULT_LANG = "ru";
     private static final String DEFAULT_ID = "e826c9fc5c929e0d6c6d423841a282aa";
-    private static final String API = "SVBkGciuiJJucO12lztv14fJ7lIdcGJ8";
     private static final int DEFAULT_LIMIT = 10;
 
     @Override
@@ -50,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     @SuppressLint("ClickableViewAccessibility")
     private void init(){
 
+        Realm.init(this);
+        dBservise = new DBService();
+
         presenter = new GifPresenter(this, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.listOfGifs.setLayoutManager(linearLayoutManager);
@@ -61,6 +67,12 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
             }
         };
         binding.listOfGifs.addOnScrollListener(scrollListener);
+
+        binding.favouriteMenuButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+            }
+        });
 
         getDefaultGifs(DEFAULT_OFFSET);
 
@@ -129,14 +141,22 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     @Override
     public void onItemClick(View view, Gif gifItem) {
 
+        gifRealmModel = new GifRealmModel();
+        //gifRealmModel.setGifUrl(gifItem.getImages().getFixed_height().toString().split(",")[3].substring(5));
+        gifRealmModel.setGif(gifItem);
+
+        dBservise.save(gifRealmModel, GifRealmModel.class)
+                .subscribe(taskRealModel1 -> {
+                    Toast.makeText(getBaseContext(),"Сохранено в бд",Toast.LENGTH_SHORT).show();
+                });
     }
 
     public void getSearchGifs(int offset, String searchWord){
-        presenter.getSearchGifs(API, searchWord, DEFAULT_LIMIT, offset, DEFAULT_RAITING, DEFAULT_LANG, DEFAULT_ID);
+        presenter.getSearchGifs("SVBkGciuiJJucO12lztv14fJ7lIdcGJ8", searchWord, DEFAULT_LIMIT, offset, DEFAULT_RAITING, DEFAULT_LANG, DEFAULT_ID);
     }
 
     public void getDefaultGifs(int offset){
-        presenter.getDefaultGifs(API, DEFAULT_LIMIT, offset, DEFAULT_RAITING, DEFAULT_ID);
+        presenter.getDefaultGifs("SVBkGciuiJJucO12lztv14fJ7lIdcGJ8", DEFAULT_LIMIT, offset, DEFAULT_RAITING, DEFAULT_ID);
     }
 
 }

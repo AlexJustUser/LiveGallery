@@ -59,7 +59,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             super(itemView);
             gif = itemView.findViewById(R.id.gif_image);
             favourite = itemView.findViewById(R.id.favourite_gif);
-            itemView.setOnClickListener(this);
+            favourite.setOnClickListener(this);
         }
 
         @Override
