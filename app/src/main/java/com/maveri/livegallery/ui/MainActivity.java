@@ -5,9 +5,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.maveri.livegallery.api.model.Gif;
 import com.maveri.livegallery.api.model.GifResponse;
@@ -63,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
                     if(event.getRawX() >= (binding.gifSearch.getRight() - binding.gifSearch.getCompoundDrawables()[2].getBounds().width())) {
                         if(!binding.gifSearch.getText().toString().trim().equals("")){
                             presenter.getSearchGifs("SVBkGciuiJJucO12lztv14fJ7lIdcGJ8", binding.gifSearch.getText().toString(), 10, DEFAULT_OFFSET, "g", "ru", "e826c9fc5c929e0d6c6d423841a282aa");
+                            hideSoftKeyboard();
                         }
                         return true;
                     }
@@ -74,6 +77,18 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
 
     public void loadNextDataFromApi(int offsetNum) {
         presenter.getDefaultGifs("SVBkGciuiJJucO12lztv14fJ7lIdcGJ8", 10, offsetNum, "g", "e826c9fc5c929e0d6c6d423841a282aa");
+    }
+
+    public void hideSoftKeyboard() {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) this.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    this.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
     }
 
     @Override
