@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import com.maveri.livegallery.R;
 import com.maveri.livegallery.api.model.Gif;
 import com.maveri.livegallery.api.model.GifResponse;
 import com.maveri.livegallery.databinding.ActivityMainBinding;
@@ -27,9 +28,15 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     private IGifPresenter presenter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private MyRecyclerViewAdapter adapter;
+    private boolean search=false;
     private List<Gif> gifs = new ArrayList();
 
     private static final int DEFAULT_OFFSET = 0;
+    private static final String DEFAULT_RAITING = "g";
+    private static final String DEFAULT_LANG = "ru";
+    private static final String DEFAULT_ID = "e826c9fc5c929e0d6c6d423841a282aa";
+    private static final String API = "SVBkGciuiJJucO12lztv14fJ7lIdcGJ8";
+    private static final int DEFAULT_LIMIT = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +57,12 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                loadNextDataFromApi(page);
+                loadNextDataFromApi(page, search);
             }
         };
         binding.listOfGifs.addOnScrollListener(scrollListener);
 
-        presenter.getDefaultGifs("SVBkGciuiJJucO12lztv14fJ7lIdcGJ8", 10, DEFAULT_OFFSET, "g", "e826c9fc5c929e0d6c6d423841a282aa");
+        getDefaultGifs(DEFAULT_OFFSET);
 
         binding.gifSearch.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -63,9 +70,18 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
 
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (binding.gifSearch.getRight() - binding.gifSearch.getCompoundDrawables()[2].getBounds().width())) {
-                        if(!binding.gifSearch.getText().toString().trim().equals("")){
-                            presenter.getSearchGifs("SVBkGciuiJJucO12lztv14fJ7lIdcGJ8", binding.gifSearch.getText().toString(), 10, DEFAULT_OFFSET, "g", "ru", "e826c9fc5c929e0d6c6d423841a282aa");
-                            hideSoftKeyboard();
+                        if(!search) {
+                            if (!binding.gifSearch.getText().toString().trim().equals("")) {
+                                getSearchGifs(DEFAULT_OFFSET, binding.gifSearch.getText().toString());
+                                hideSoftKeyboard();
+                                search = true;
+                                binding.gifSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_cross, 0);
+                            }
+                        }else{
+                            search=false;
+                            binding.gifSearch.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_search, 0);
+                            binding.gifSearch.setText("");
+                            getDefaultGifs(DEFAULT_OFFSET);
                         }
                         return true;
                     }
@@ -75,8 +91,12 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
         });
     }
 
-    public void loadNextDataFromApi(int offsetNum) {
-        presenter.getDefaultGifs("SVBkGciuiJJucO12lztv14fJ7lIdcGJ8", 10, offsetNum, "g", "e826c9fc5c929e0d6c6d423841a282aa");
+    public void loadNextDataFromApi(int offsetNum, boolean search) {
+        if(search){
+            getSearchGifs(offsetNum, binding.gifSearch.getText().toString());
+        }else {
+            getDefaultGifs(offsetNum);
+        }
     }
 
     public void hideSoftKeyboard() {
@@ -110,4 +130,13 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     public void onItemClick(View view, Gif gifItem) {
 
     }
+
+    public void getSearchGifs(int offset, String searchWord){
+        presenter.getSearchGifs(API, searchWord, DEFAULT_LIMIT, offset, DEFAULT_RAITING, DEFAULT_LANG, DEFAULT_ID);
+    }
+
+    public void getDefaultGifs(int offset){
+        presenter.getDefaultGifs(API, DEFAULT_LIMIT, offset, DEFAULT_RAITING, DEFAULT_ID);
+    }
+
 }

@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">Live Gallery</string>
     <string name="search_gif">Поиск картинки</string>
-    <string name="ApiKey">SVBkGciuiJJucO12lztv14fJ7lIdcGJ8</string>
 </resources>
