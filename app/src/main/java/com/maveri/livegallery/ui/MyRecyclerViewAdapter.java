@@ -39,8 +39,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        String url = data.get(position).getImages().getFixed_height().toString();
-        //List<String> newList = (List<String>) (List) Arrays.asList(oldList);
+        String url = data.get(position).getImages().getFixed_height().toString().split(",")[3].substring(5);
         Glide
                 .with(mInflater.getContext())
                 .load(url)
