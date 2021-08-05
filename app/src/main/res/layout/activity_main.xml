@@ -23,10 +23,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/favourite_menu_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="true"
+        android:text="@string/favourite_menu"
+        android:textColor="@android:color/white"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gif_search" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/gif_search">
+        app:layout_constraintTop_toBottomOf="@+id/favourite_menu_button">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list_of_gifs"

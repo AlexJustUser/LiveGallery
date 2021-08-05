@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,7 +42,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         Glide
                 .with(mInflater.getContext())
                 .load(url)
-                .into(holder.myImageView);
+                .into(holder.gif);
     }
 
     @Override
@@ -51,11 +52,13 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView myImageView;
+        ImageButton favourite;
+        ImageView gif;
 
         ViewHolder(View itemView) {
             super(itemView);
-            myImageView = itemView.findViewById(R.id.gif_image);
+            gif = itemView.findViewById(R.id.gif_image);
+            favourite = itemView.findViewById(R.id.favourite_gif);
             itemView.setOnClickListener(this);
         }
 
