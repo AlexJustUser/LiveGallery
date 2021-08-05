@@ -8,10 +8,10 @@ import rx.Observable;
 
 public interface Api {
 
-    @GET("/trending")
+    @GET("trending")
     Observable<GifResponse> getDefaultGifs(@Query("api_key") String api_key, @Query("limit") Integer limit, @Query("offset") Integer offset, @Query("rating") String rating, @Query("random_id") String random_id);
 
-    @GET("/search")
+    @GET("search")
     Observable<GifResponse> getSearchGifs(@Query("api_key") String api_key, @Query("q") String q, @Query("limit") Integer limit, @Query("offset") Integer offset, @Query("rating") String rating, @Query("lang") String lang, @Query("random_id") String random_id);
 
 }

@@ -24,10 +24,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "SERVER_URL", '"http://api.giphy.com/v1/gifs"'
+            buildConfigField "String", "SERVER_URL", '"http://api.giphy.com/v1/gifs/"'
         }
         debug {
-            buildConfigField "String", "SERVER_URL", '"http://api.giphy.com/v1/gifs"'
+            buildConfigField "String", "SERVER_URL", '"http://api.giphy.com/v1/gifs/"'
         }
     }
     compileOptions {
