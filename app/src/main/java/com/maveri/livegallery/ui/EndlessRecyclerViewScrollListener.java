@@ -67,7 +67,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
             previousTotalItemCount = totalItemCount;
         }
         if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
-            currentPage++;
+            currentPage+=10;
             onLoadMore(currentPage, totalItemCount, view);
             loading = true;
         }

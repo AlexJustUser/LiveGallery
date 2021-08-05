@@ -18,7 +18,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private List<Gif> data;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-//    private GlideApp glideApp;
     private RecyclerviewRowBinding binding;
 
     MyRecyclerViewAdapter(Context context, List<Gif> data) {
