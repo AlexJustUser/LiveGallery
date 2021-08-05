@@ -29,7 +29,7 @@ public class GifPresenter implements IGifPresenter{
     }
 
     @Override
-    public void displayDefaultGifs(GifResponse gifResponse) {
+    public void displayGifs(GifResponse gifResponse) {
         view.displayMapsList(gifResponse);
     }
 }

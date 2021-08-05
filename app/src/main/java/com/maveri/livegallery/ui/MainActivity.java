@@ -61,7 +61,9 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
 
                 if(event.getAction() == MotionEvent.ACTION_UP) {
                     if(event.getRawX() >= (binding.gifSearch.getRight() - binding.gifSearch.getCompoundDrawables()[2].getBounds().width())) {
-
+                        if(!binding.gifSearch.getText().toString().trim().equals("")){
+                            presenter.getSearchGifs("SVBkGciuiJJucO12lztv14fJ7lIdcGJ8", binding.gifSearch.getText().toString(), 10, DEFAULT_OFFSET, "g", "ru", "e826c9fc5c929e0d6c6d423841a282aa");
+                        }
                         return true;
                     }
                 }
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     @Override
     public void displayMapsList(GifResponse gifResponse) {
         if(gifResponse.getPagination().getOffset()==0){
+            gifs.clear();
             gifs.addAll(Arrays.asList(gifResponse.getData()));
             adapter = new MyRecyclerViewAdapter(this, gifs);
             adapter.setClickListener(this::onItemClick);

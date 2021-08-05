@@ -18,7 +18,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private List<Gif> data;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
-    private RecyclerviewRowBinding binding;
 
     MyRecyclerViewAdapter(Context context, List<Gif> data) {
         this.mInflater = LayoutInflater.from(context);

@@ -7,17 +7,16 @@
     android:gravity="center"
     android:padding="10dp">
 
+    <ImageView
+        android:id="@+id/gif_image"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:adjustViewBounds="true"/>
+
     <ImageButton
         android:id="@+id/favourite_gif"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_dark_star" />
-
-    <ImageView
-        android:id="@+id/gif_image"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:adjustViewBounds="true"/>
-
 
 </RelativeLayout>

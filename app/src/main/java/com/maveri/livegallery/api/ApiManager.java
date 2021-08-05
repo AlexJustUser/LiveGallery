@@ -37,7 +37,7 @@ public class ApiManager {
                         @Override
                         public void onNext(GifResponse gifResponse) {
                             Log.d(TAG, "In onNext()");
-                            presenter.displayDefaultGifs(gifResponse);
+                            presenter.displayGifs(gifResponse);
 
                         }
                     });
@@ -68,7 +68,7 @@ public class ApiManager {
                         @Override
                         public void onNext(GifResponse gifResponse) {
                             Log.d(TAG, "In onNext()");
-
+                            presenter.displayGifs(gifResponse);
                         }
                     });
         } catch (Exception e) {
