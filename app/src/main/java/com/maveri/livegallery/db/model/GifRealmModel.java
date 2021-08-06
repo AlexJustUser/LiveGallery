@@ -9,8 +9,15 @@ public class GifRealmModel extends RealmObject {
 
     @PrimaryKey
     private long id;
+    private String gifUrl;
 
-    private Gif gif;
+    public void setGifUrl(String gifUrl) {
+        this.gifUrl = gifUrl;
+    }
+
+    public String getGifUrl() {
+        return gifUrl;
+    }
 
     public long getId() {
         return id;
@@ -20,11 +27,4 @@ public class GifRealmModel extends RealmObject {
         this.id = id;
     }
 
-    public void setGif(Gif gif) {
-        this.gif = gif;
-    }
-
-    public Gif getGif() {
-        return gif;
-    }
 }

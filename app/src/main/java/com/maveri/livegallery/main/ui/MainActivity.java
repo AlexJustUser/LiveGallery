@@ -1,4 +1,4 @@
-package com.maveri.livegallery.ui;
+package com.maveri.livegallery.main.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -6,23 +6,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
+import android.widget.ImageButton;
+
 import com.maveri.livegallery.R;
 import com.maveri.livegallery.api.model.Gif;
 import com.maveri.livegallery.api.model.GifResponse;
 import com.maveri.livegallery.databinding.ActivityMainBinding;
-import com.maveri.livegallery.db.DBService;
-import com.maveri.livegallery.db.model.GifRealmModel;
-import com.maveri.livegallery.presenter.GifPresenter;
-import com.maveri.livegallery.presenter.IGifPresenter;
+import com.maveri.livegallery.favourite.ui.FavouriteActivity;
+import com.maveri.livegallery.main.presenter.GifPresenter;
+import com.maveri.livegallery.main.presenter.IGifPresenter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity implements MainView, MyRecyclerViewAdapter.ItemClickListener{
 
@@ -30,10 +30,9 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     private IGifPresenter presenter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private MyRecyclerViewAdapter adapter;
-    private DBService dBservise;
-    private GifRealmModel gifRealmModel;
     private boolean search=false;
     private List<Gif> gifs = new ArrayList();
+    private Intent intent;
 
     private static final int DEFAULT_OFFSET = 0;
     private static final String DEFAULT_RAITING = "g";
@@ -53,9 +52,6 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     @SuppressLint("ClickableViewAccessibility")
     private void init(){
 
-        Realm.init(this);
-        dBservise = new DBService();
-
         presenter = new GifPresenter(this, this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         binding.listOfGifs.setLayoutManager(linearLayoutManager);
@@ -70,7 +66,8 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
 
         binding.favouriteMenuButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                intent = new Intent(MainActivity.this, FavouriteActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -141,14 +138,8 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     @Override
     public void onItemClick(View view, Gif gifItem) {
 
-        gifRealmModel = new GifRealmModel();
-        //gifRealmModel.setGifUrl(gifItem.getImages().getFixed_height().toString().split(",")[3].substring(5));
-        gifRealmModel.setGif(gifItem);
+        saveFavouriteGif(view, gifItem);
 
-        dBservise.save(gifRealmModel, GifRealmModel.class)
-                .subscribe(taskRealModel1 -> {
-                    Toast.makeText(getBaseContext(),"Сохранено в бд",Toast.LENGTH_SHORT).show();
-                });
     }
 
     public void getSearchGifs(int offset, String searchWord){
@@ -157,6 +148,16 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
 
     public void getDefaultGifs(int offset){
         presenter.getDefaultGifs("SVBkGciuiJJucO12lztv14fJ7lIdcGJ8", DEFAULT_LIMIT, offset, DEFAULT_RAITING, DEFAULT_ID);
+    }
+
+    public void saveFavouriteGif(View view, Gif gif){
+        presenter.saveFavouriteGifs(view, gif);
+    }
+
+    public void checkFavouriteGif(View view, Gif gifItem){
+        ImageButton favourite;
+        favourite = view.findViewById(R.id.favourite_gif);
+        favourite.setImageResource(R.drawable.ic_yellow_star);
     }
 
 }

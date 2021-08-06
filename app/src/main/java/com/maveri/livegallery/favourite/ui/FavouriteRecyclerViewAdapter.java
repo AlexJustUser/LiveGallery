@@ -1,4 +1,4 @@
-package com.maveri.livegallery.ui;
+package com.maveri.livegallery.favourite.ui;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,26 +6,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.maveri.livegallery.R;
 import com.maveri.livegallery.api.model.Gif;
-import com.maveri.livegallery.databinding.RecyclerviewRowBinding;
+
 import java.util.List;
 
-public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
+public class FavouriteRecyclerViewAdapter extends RecyclerView.Adapter<FavouriteRecyclerViewAdapter.ViewHolder> {
 
-    private List<Gif> data;
+    private List<String> data;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
-    MyRecyclerViewAdapter(Context context, List<Gif> data) {
+    FavouriteRecyclerViewAdapter(Context context, List<String> data) {
         this.mInflater = LayoutInflater.from(context);
         this.data = data;
     }
 
-    public void updateData(List<Gif> data){
+    public void updateData(List<String> data){
         this.data =data;
     }
 
@@ -38,7 +39,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        String url = data.get(position).getImages().getFixed_height().toString().split(",")[3].substring(5);
+        String url = data.get(position);
         Glide
                 .with(mInflater.getContext())
                 .load(url)
@@ -64,7 +65,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, data.get(getAdapterPosition()));
+//            if (mClickListener != null) mClickListener.onItemClick(view, data.get(getAdapterPosition()));
         }
     }
 

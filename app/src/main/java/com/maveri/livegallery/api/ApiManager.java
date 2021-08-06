@@ -3,7 +3,7 @@ package com.maveri.livegallery.api;
 import android.util.Log;
 
 import com.maveri.livegallery.api.model.GifResponse;
-import com.maveri.livegallery.presenter.IGifPresenter;
+import com.maveri.livegallery.main.presenter.IGifPresenter;
 
 import java.util.concurrent.TimeUnit;
 import rx.Subscriber;

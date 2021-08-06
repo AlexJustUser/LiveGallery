@@ -1,4 +1,4 @@
-package com.maveri.livegallery.ui;
+package com.maveri.livegallery.main.ui;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
