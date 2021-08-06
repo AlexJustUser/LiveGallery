@@ -32,7 +32,7 @@ public class FavouriteRecyclerViewAdapter extends RecyclerView.Adapter<Favourite
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.recyclerview_row, parent, false);
+        View view = mInflater.inflate(R.layout.recyclerview_favourite_row, parent, false);
         return new ViewHolder(view);
     }
 
@@ -53,14 +53,11 @@ public class FavouriteRecyclerViewAdapter extends RecyclerView.Adapter<Favourite
 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageButton favourite;
         ImageView gif;
 
         ViewHolder(View itemView) {
             super(itemView);
-            gif = itemView.findViewById(R.id.gif_image);
-            favourite = itemView.findViewById(R.id.favourite_gif);
-            favourite.setOnClickListener(this);
+            gif = itemView.findViewById(R.id.gif_favourite_image);
         }
 
         @Override

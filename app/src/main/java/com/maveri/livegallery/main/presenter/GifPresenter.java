@@ -41,7 +41,19 @@ public class GifPresenter implements IGifPresenter{
 
     @Override
     public void displayGifs(GifResponse gifResponse) {
-        view.displayMapsList(gifResponse);
+
+        Realm.init(context);
+        dBService = new DBService();
+
+        dBService.getAll(GifRealmModel.class)
+                .subscribe(gifRealmModels -> {
+                    List<String> gifs_url = new ArrayList<String>();
+
+                    for (GifRealmModel model: gifRealmModels) {
+                        gifs_url.add(model.getGifUrl());
+                    }
+                    view.displayMapsList(gifResponse, gifs_url);
+                });
     }
 
     @Override

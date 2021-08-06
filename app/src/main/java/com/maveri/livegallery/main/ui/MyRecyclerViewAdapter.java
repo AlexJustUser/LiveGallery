@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.maveri.livegallery.R;
 import com.maveri.livegallery.api.model.Gif;
+import com.maveri.livegallery.db.model.GifRealmModel;
 
 import java.util.List;
 
@@ -19,10 +20,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private List<Gif> data;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    private List<String> favouritesGifsUrls;
 
-    MyRecyclerViewAdapter(Context context, List<Gif> data) {
+    MyRecyclerViewAdapter(Context context, List<Gif> data, List<String> favouritesGifsUrls) {
         this.mInflater = LayoutInflater.from(context);
         this.data = data;
+        this.favouritesGifsUrls = favouritesGifsUrls;
     }
 
     public void updateData(List<Gif> data){
@@ -39,6 +42,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         String url = data.get(position).getImages().getFixed_height().toString().split(",")[3].substring(5);
+        for (String gifUrl: favouritesGifsUrls) {
+            if(gifUrl.equals(url)){
+                holder.favourite.setImageResource(R.drawable.ic_yellow_star);
+                holder.favourite.setAccessibilityHeading(false);
+                break;
+            }else{
+                holder.favourite.setImageResource(R.drawable.ic_dark_star);
+            }
+        }
+
         Glide
                 .with(mInflater.getContext())
                 .load(url)

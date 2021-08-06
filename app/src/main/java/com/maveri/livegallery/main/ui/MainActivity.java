@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     private static final String DEFAULT_RAITING = "g";
     private static final String DEFAULT_LANG = "ru";
     private static final String DEFAULT_ID = "e826c9fc5c929e0d6c6d423841a282aa";
-    private static final int DEFAULT_LIMIT = 10;
+    private static final int DEFAULT_LIMIT = 25;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,11 +121,11 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     }
 
     @Override
-    public void displayMapsList(GifResponse gifResponse) {
+    public void displayMapsList(GifResponse gifResponse, List<String> favouritesGifsUrls) {
         if(gifResponse.getPagination().getOffset()==0){
             gifs.clear();
             gifs.addAll(Arrays.asList(gifResponse.getData()));
-            adapter = new MyRecyclerViewAdapter(this, gifs);
+            adapter = new MyRecyclerViewAdapter(this, gifs, favouritesGifsUrls);
             adapter.setClickListener(this::onItemClick);
             binding.listOfGifs.setAdapter(adapter);
         }
@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
         ImageButton favourite;
         favourite = view.findViewById(R.id.favourite_gif);
         favourite.setImageResource(R.drawable.ic_yellow_star);
+        view.findViewById(R.id.favourite_gif).setClickable(false);
     }
 
 }
