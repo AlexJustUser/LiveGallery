@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     private static final String DEFAULT_RAITING = "g";
     private static final String DEFAULT_LANG = "ru";
     private static final String DEFAULT_ID = "e826c9fc5c929e0d6c6d423841a282aa";
+    private static final String API = "SVBkGciuiJJucO12lztv14fJ7lIdcGJ8";
     private static final int DEFAULT_LIMIT = 25;
 
     @Override
@@ -121,11 +122,11 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     }
 
     @Override
-    public void displayMapsList(GifResponse gifResponse, List<String> favouritesGifsUrls) {
+    public void displayMapsList(GifResponse gifResponse, List<String> favouriteGifsUrl) {
         if(gifResponse.getPagination().getOffset()==0){
             gifs.clear();
             gifs.addAll(Arrays.asList(gifResponse.getData()));
-            adapter = new MyRecyclerViewAdapter(this, gifs, favouritesGifsUrls);
+            adapter = new MyRecyclerViewAdapter(this, gifs, favouriteGifsUrl);
             adapter.setClickListener(this::onItemClick);
             binding.listOfGifs.setAdapter(adapter);
         }
@@ -137,17 +138,16 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
 
     @Override
     public void onItemClick(View view, Gif gifItem) {
-
         saveFavouriteGif(view, gifItem);
 
     }
 
     public void getSearchGifs(int offset, String searchWord){
-        presenter.getSearchGifs("SVBkGciuiJJucO12lztv14fJ7lIdcGJ8", searchWord, DEFAULT_LIMIT, offset, DEFAULT_RAITING, DEFAULT_LANG, DEFAULT_ID);
+        presenter.getSearchGifs(API, searchWord, DEFAULT_LIMIT, offset, DEFAULT_RAITING, DEFAULT_LANG, DEFAULT_ID);
     }
 
     public void getDefaultGifs(int offset){
-        presenter.getDefaultGifs("SVBkGciuiJJucO12lztv14fJ7lIdcGJ8", DEFAULT_LIMIT, offset, DEFAULT_RAITING, DEFAULT_ID);
+        presenter.getDefaultGifs(API, DEFAULT_LIMIT, offset, DEFAULT_RAITING, DEFAULT_ID);
     }
 
     public void saveFavouriteGif(View view, Gif gif){
@@ -155,10 +155,8 @@ public class MainActivity extends AppCompatActivity implements MainView, MyRecyc
     }
 
     public void checkFavouriteGif(View view, Gif gifItem){
-        ImageButton favourite;
-        favourite = view.findViewById(R.id.favourite_gif);
-        favourite.setImageResource(R.drawable.ic_yellow_star);
-        view.findViewById(R.id.favourite_gif).setClickable(false);
+        adapter.updateUrls(gifItem.getImages().getFixed_height().toString().split(",")[3].substring(5));
+        adapter.notifyItemChanged(gifs.indexOf(gifItem));
     }
 
 }

@@ -70,20 +70,4 @@ public class GifPresenter implements IGifPresenter{
                 });
     }
 
-    @Override
-    public void getFavouriteGifs() {
-        Realm.init(context);
-        dBService = new DBService();
-
-        dBService.getAll(GifRealmModel.class)
-                .subscribe(gifRealmModels -> {
-                    List<String> gifs_url = new ArrayList<String>();
-
-                    for (GifRealmModel model: gifRealmModels) {
-                        gifs_url.add(model.getGifUrl());
-                    }
-                    //displayFavouriteGifs(gifs_url);
-                });
-    }
-
 }

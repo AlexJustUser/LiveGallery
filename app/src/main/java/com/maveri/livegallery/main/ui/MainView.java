@@ -9,6 +9,7 @@ import com.maveri.livegallery.api.model.GifResponse;
 import java.util.List;
 
 public interface MainView {
-    void displayMapsList(GifResponse gifResponse, List<String> favouriteGifsList);
+    void displayMapsList(GifResponse gifResponse, List<String> favouriteGifsUrl);
     void checkFavouriteGif(View view, Gif gif);
+    //void updateFavouritesGifs(List<String> gifs);
 }

@@ -13,6 +13,7 @@ import com.maveri.livegallery.R;
 import com.maveri.livegallery.api.model.Gif;
 import com.maveri.livegallery.db.model.GifRealmModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.ViewHolder> {
@@ -31,6 +32,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void updateData(List<Gif> data){
         this.data =data;
     }
+    public void updateUrls(String url){
+        favouritesGifsUrls.add(url);
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -45,10 +49,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         for (String gifUrl: favouritesGifsUrls) {
             if(gifUrl.equals(url)){
                 holder.favourite.setImageResource(R.drawable.ic_yellow_star);
-                holder.favourite.setAccessibilityHeading(false);
+                holder.favourite.setClickable(false);
                 break;
             }else{
                 holder.favourite.setImageResource(R.drawable.ic_dark_star);
+                holder.favourite.setClickable(true);
             }
         }
 

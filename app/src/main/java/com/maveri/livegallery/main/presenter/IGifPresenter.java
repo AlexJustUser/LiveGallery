@@ -11,6 +11,5 @@ public interface IGifPresenter {
     void getDefaultGifs(String api_key, Integer limit, Integer offset, String rating, String random_id);
     void getSearchGifs(String api_key, String q, Integer limit, Integer offset, String rating, String lang, String random_id);
     void saveFavouriteGifs(View view, Gif gif);
-    void getFavouriteGifs();
     void displayGifs(GifResponse gifResponse);
 }
