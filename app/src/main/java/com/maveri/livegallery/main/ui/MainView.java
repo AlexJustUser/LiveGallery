@@ -11,5 +11,4 @@ import java.util.List;
 public interface MainView {
     void displayMapsList(GifResponse gifResponse, List<String> favouriteGifsUrl);
     void checkFavouriteGif(View view, Gif gif);
-    //void updateFavouritesGifs(List<String> gifs);
 }
